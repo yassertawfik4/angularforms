@@ -1,0 +1,170 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-5 col-md-7">
+      <div class="card shadow-lg">
+        <div class="card-header"><i class="bi bi-person-plus"></i> Create New Account</div>
+        <div class="card-body">
+          @if (successMessage()) {
+            <div class="alert alert-success d-flex align-items-center" role="alert">
+              <i class="bi bi-check-circle me-2"></i>
+              <div>
+                {{ successMessage() }}
+              </div>
+            </div>
+          }
+
+          @if (errorMessage()) {
+            <div class="alert alert-danger d-flex align-items-center" role="alert">
+              <i class="bi bi-exclamation-circle me-2"></i>
+              <div>
+                {{ errorMessage() }}
+              </div>
+            </div>
+          }
+
+          <form [formGroup]="form" (ngSubmit)="onSubmit()" class="needs-validation">
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="firstName" class="form-label">
+                  <i class="bi bi-person"></i> First Name
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="firstName"
+                  formControlName="firstName"
+                  placeholder="Enter first name"
+                  [class.is-invalid]="
+                    form.get('firstName')?.invalid && form.get('firstName')?.touched
+                  "
+                />
+                @if (form.get('firstName')?.invalid && form.get('firstName')?.touched) {
+                  <div class="invalid-feedback d-block">
+                    <i class="bi bi-exclamation-triangle me-1"></i>
+                    {{ firstNameError }}
+                  </div>
+                }
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label for="lastName" class="form-label">
+                  <i class="bi bi-person"></i> Last Name
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="lastName"
+                  formControlName="lastName"
+                  placeholder="Enter last name"
+                  [class.is-invalid]="
+                    form.get('lastName')?.invalid && form.get('lastName')?.touched
+                  "
+                />
+                @if (form.get('lastName')?.invalid && form.get('lastName')?.touched) {
+                  <div class="invalid-feedback d-block">
+                    <i class="bi bi-exclamation-triangle me-1"></i>
+                    {{ lastNameError }}
+                  </div>
+                }
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="email" class="form-label">
+                <i class="bi bi-envelope"></i> Email Address
+              </label>
+              <input
+                type="email"
+                class="form-control"
+                id="email"
+                formControlName="email"
+                placeholder="Enter your email"
+                [class.is-invalid]="form.get('email')?.invalid && form.get('email')?.touched"
+              />
+              @if (form.get('email')?.invalid && form.get('email')?.touched) {
+                <div class="invalid-feedback d-block">
+                  <i class="bi bi-exclamation-triangle me-1"></i>
+                  {{ emailError }}
+                </div>
+              }
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="password" class="form-label">
+                  <i class="bi bi-lock"></i> Password
+                </label>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="password"
+                  formControlName="password"
+                  placeholder="Enter a strong password"
+                  [class.is-invalid]="
+                    form.get('password')?.invalid && form.get('password')?.touched
+                  "
+                />
+                @if (form.get('password')?.invalid && form.get('password')?.touched) {
+                  <div class="invalid-feedback d-block">
+                    <i class="bi bi-exclamation-triangle me-1"></i>
+                    {{ passwordError }}
+                  </div>
+                }
+              </div>
+
+              <div class="col-md-6 mb-3">
+                <label for="age" class="form-label"> <i class="bi bi-calendar"></i> Age </label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="age"
+                  formControlName="age"
+                  placeholder="Enter your age"
+                  min="18"
+                  max="100"
+                  [class.is-invalid]="form.get('age')?.invalid && form.get('age')?.touched"
+                />
+                @if (form.get('age')?.invalid && form.get('age')?.touched) {
+                  <div class="invalid-feedback d-block">
+                    <i class="bi bi-exclamation-triangle me-1"></i>
+                    {{ ageError }}
+                  </div>
+                }
+              </div>
+            </div>
+
+            <small class="text-muted d-block mt-2 mb-4">
+              <i class="bi bi-info-circle me-1"></i>
+              Password must be at least 6 characters
+            </small>
+
+            <button
+              type="submit"
+              class="btn btn-primary w-100 py-2"
+              [disabled]="loading() || form.invalid"
+            >
+              @if (loading()) {
+                <span
+                  class="spinner-border spinner-border-sm me-2"
+                  role="status"
+                  aria-hidden="true"
+                ></span>
+                <span>Creating Account...</span>
+              } @else {
+                <i class="bi bi-person-check me-2"></i>
+                <span>Register</span>
+              }
+            </button>
+          </form>
+
+          <div class="mt-4 text-center">
+            <p class="text-muted mb-0">
+              Want to see all users?
+              <a href="/users" class="text-primary fw-bold text-decoration-none">View All Users</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

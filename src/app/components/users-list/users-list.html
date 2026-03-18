@@ -1,0 +1,102 @@
+<div class="container mt-5 mb-5">
+  <div class="row">
+    <div class="col-12">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+          <h2 class="page-title mb-0"><i class="bi bi-people-fill"></i> User Management</h2>
+          <p class="text-muted mb-0">View and manage all registered users from DummyJSON API</p>
+        </div>
+        <a href="/register" class="btn btn-primary">
+          <i class="bi bi-person-plus"></i> Add New User
+        </a>
+      </div>
+
+      @if (errorMessage()) {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <div class="d-flex align-items-center">
+            <i class="bi bi-exclamation-circle me-2"></i>
+            <div><strong>Error!</strong> {{ errorMessage() }}</div>
+          </div>
+          <button
+            type="button"
+            class="btn-close"
+            (click)="errorMessage.set(null)"
+            aria-label="Close"
+          ></button>
+        </div>
+      }
+
+      @if (loading()) {
+        <div class="text-center py-5">
+          <div class="spinner-border mb-3" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+          <p class="text-muted">Loading users...</p>
+        </div>
+      } @else {
+        @if (users().length === 0) {
+          <div class="card border-0 shadow-lg">
+            <div class="card-body text-center py-5">
+              <div class="mb-4">
+                <i class="bi bi-inbox" style="font-size: 3rem; color: #ccc"></i>
+              </div>
+              <h4 class="text-muted mb-3">No Users Found</h4>
+              <p class="text-muted mb-4">There are no users available. Try adding a new user!</p>
+              <a href="/register" class="btn btn-primary">
+                <i class="bi bi-person-plus"></i> Add New User
+              </a>
+            </div>
+          </div>
+        } @else {
+          <div class="card border-0 shadow-lg">
+            <div class="table-responsive">
+              <table class="table table-hover mb-0">
+                <thead>
+                  <tr>
+                    <th><i class="bi bi-hash"></i> ID</th>
+                    <th><i class="bi bi-person"></i> First Name</th>
+                    <th><i class="bi bi-person"></i> Last Name</th>
+                    <th><i class="bi bi-envelope"></i> Email</th>
+                    <th><i class="bi bi-cake"></i> Age</th>
+                    <th class="text-center"><i class="bi bi-gear"></i> Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (user of users(); track user.id) {
+                    <tr>
+                      <td>
+                        <span class="badge bg-secondary">{{ user.id }}</span>
+                      </td>
+                      <td class="fw-500">{{ user.firstName }}</td>
+                      <td class="fw-500">{{ user.lastName }}</td>
+                      <td><i class="bi bi-envelope"></i> {{ user.email }}</td>
+                      <td>
+                        <span class="badge bg-info">{{ user.age }} years</span>
+                      </td>
+                      <td class="text-center">
+                        <button
+                          class="btn btn-sm btn-danger"
+                          (click)="deleteUser(user.id)"
+                          [disabled]="loading()"
+                          title="Delete user"
+                        >
+                          <i class="bi bi-trash"></i> Delete
+                        </button>
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+            <div class="card-footer bg-light border-top">
+              <small class="text-muted">
+                <i class="bi bi-info-circle me-1"></i>
+                Total Users: <strong>{{ users().length }}</strong>
+              </small>
+            </div>
+          </div>
+        }
+      }
+    </div>
+  </div>
+</div>
